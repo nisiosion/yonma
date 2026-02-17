@@ -13,39 +13,28 @@
   h1 {
     text-align: center;
     font-size: 1.5rem;
+    margin-bottom: 10px;
   }
   .section {
     background: #fff;
-    padding: 10px 15px;
-    margin-bottom: 10px;
+    padding: 5px 10px;
+    margin-bottom: 8px;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  .section label {
-    display: block;
-    margin: 5px 0;
-  }
-  .section select, .section button {
-    width: 100%;
-    font-size: 1rem;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
   }
   .radio-group {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
   }
   .radio-group label {
-    flex: 1 1 48%;
+    flex: 1 1 33%;
     text-align: center;
     background: #e0e0e0;
-    margin: 3px 0;
-    padding: 8px;
+    margin: 2px;
+    padding: 10px 0;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
   }
   .radio-group input[type="radio"] {
     display: none;
@@ -55,11 +44,19 @@
     color: white;
     font-weight: bold;
   }
+  select {
+    width: 100%;
+    font-size: 1rem;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
   #result {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -70,38 +67,28 @@
 
 <h1>四麻点数計算アプリ</h1>
 
-<div class="section">
-  <h2>ロン / ツモ</h2>
-  <div class="radio-group">
-    <input type="radio" id="ron" name="ronTsumo" value="ron" checked>
-    <label for="ron">ロン</label>
-    <input type="radio" id="tsumo" name="ronTsumo" value="tsumo">
-    <label for="tsumo">ツモ</label>
-  </div>
+<div class="section radio-group">
+  <input type="radio" id="ron" name="ronTsumo" value="ron" checked>
+  <label for="ron">ロン</label>
+  <input type="radio" id="tsumo" name="ronTsumo" value="tsumo">
+  <label for="tsumo">ツモ</label>
+</div>
+
+<div class="section radio-group">
+  <input type="radio" id="naki" name="nakiMenzen" value="naki" checked>
+  <label for="naki">鳴き</label>
+  <input type="radio" id="menzen" name="nakiMenzen" value="menzen">
+  <label for="menzen">メンゼン</label>
+</div>
+
+<div class="section radio-group">
+  <input type="radio" id="child" name="childParent" value="child" checked>
+  <label for="child">子</label>
+  <input type="radio" id="parent" name="childParent" value="parent">
+  <label for="parent">親</label>
 </div>
 
 <div class="section">
-  <h2>鳴き / メンゼン</h2>
-  <div class="radio-group">
-    <input type="radio" id="naki" name="nakiMenzen" value="naki" checked>
-    <label for="naki">鳴き</label>
-    <input type="radio" id="menzen" name="nakiMenzen" value="menzen">
-    <label for="menzen">メンゼン</label>
-  </div>
-</div>
-
-<div class="section">
-  <h2>子 / 親</h2>
-  <div class="radio-group">
-    <input type="radio" id="child" name="childParent" value="child" checked>
-    <label for="child">子</label>
-    <input type="radio" id="parent" name="childParent" value="parent">
-    <label for="parent">親</label>
-  </div>
-</div>
-
-<div class="section">
-  <h2>翻数</h2>
   <select id="han">
     <option value="0">1翻</option>
     <option value="1">2翻</option>
@@ -112,10 +99,6 @@
     <option value="6">11・12翻</option>
     <option value="7">13翻〜</option>
   </select>
-</div>
-
-<div class="section">
-  <button onclick="calculate()">点数計算</button>
 </div>
 
 <div id="result">結果がここに表示されます</div>
@@ -152,15 +135,21 @@ function calculate() {
   } else { // tsumo
     if (childParent === "child") {
       resultText = points.tsumo.child[hanIndex];
-      resultText = "ツモ（子）： " + resultText + " 点 (子→親/子→子)";
     } else { // parent
       resultText = points.tsumo.parent[hanIndex];
-      resultText = "ツモ（親）： " + resultText + " 点 (他子×2 / 子×1)";
     }
+    resultText = "ツモ： " + resultText + "点";
   }
 
   document.getElementById("result").innerText = resultText;
 }
+
+// 入力が変わったら即計算
+document.querySelectorAll('input[name="ronTsumo"], input[name="nakiMenzen"], input[name="childParent"], #han')
+.forEach(el => el.addEventListener('change', calculate));
+
+// 初期表示
+calculate();
 </script>
 
 </body>
