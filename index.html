@@ -25,9 +25,10 @@
   .radio-group {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
   .radio-group label {
-    flex: 1 1 33%;
+    flex: 1 1 20%;
     text-align: center;
     background: #e0e0e0;
     margin: 2px;
@@ -44,14 +45,6 @@
     color: white;
     font-weight: bold;
   }
-  select {
-    width: 100%;
-    font-size: 1rem;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
   #result {
     text-align: center;
     font-size: 1.3rem;
@@ -67,6 +60,7 @@
 
 <h1>四麻点数計算アプリ</h1>
 
+<!-- ロン/ツモ -->
 <div class="section radio-group">
   <input type="radio" id="ron" name="ronTsumo" value="ron" checked>
   <label for="ron">ロン</label>
@@ -74,6 +68,7 @@
   <label for="tsumo">ツモ</label>
 </div>
 
+<!-- 鳴き/メンゼン -->
 <div class="section radio-group">
   <input type="radio" id="naki" name="nakiMenzen" value="naki" checked>
   <label for="naki">鳴き</label>
@@ -81,6 +76,7 @@
   <label for="menzen">メンゼン</label>
 </div>
 
+<!-- 子/親 -->
 <div class="section radio-group">
   <input type="radio" id="child" name="childParent" value="child" checked>
   <label for="child">子</label>
@@ -88,17 +84,24 @@
   <label for="parent">親</label>
 </div>
 
-<div class="section">
-  <select id="han">
-    <option value="0">1翻</option>
-    <option value="1">2翻</option>
-    <option value="2">3翻</option>
-    <option value="3">4・5翻</option>
-    <option value="4">6・7翻</option>
-    <option value="5">8・9・10翻</option>
-    <option value="6">11・12翻</option>
-    <option value="7">13翻〜</option>
-  </select>
+<!-- 翻数ボタン -->
+<div class="section radio-group" id="hanButtons">
+  <input type="radio" id="han1" name="han" value="0" checked>
+  <label for="han1">1翻</label>
+  <input type="radio" id="han2" name="han" value="1">
+  <label for="han2">2翻</label>
+  <input type="radio" id="han3" name="han" value="2">
+  <label for="han3">3翻</label>
+  <input type="radio" id="han4" name="han" value="3">
+  <label for="han4">4・5翻</label>
+  <input type="radio" id="han5" name="han" value="4">
+  <label for="han5">6・7翻</label>
+  <input type="radio" id="han6" name="han" value="5">
+  <label for="han6">8・9・10翻</label>
+  <input type="radio" id="han7" name="han" value="6">
+  <label for="han7">11・12翻</label>
+  <input type="radio" id="han8" name="han" value="7">
+  <label for="han8">13翻〜</label>
 </div>
 
 <div id="result">結果がここに表示されます</div>
@@ -121,7 +124,7 @@ function calculate() {
   const ronOrTsumo = document.querySelector('input[name="ronTsumo"]:checked').value;
   const nakiMenzen = document.querySelector('input[name="nakiMenzen"]:checked').value;
   const childParent = document.querySelector('input[name="childParent"]:checked').value;
-  const hanIndex = parseInt(document.getElementById("han").value);
+  const hanIndex = parseInt(document.querySelector('input[name="han"]:checked').value);
 
   let resultText = "";
 
@@ -145,7 +148,7 @@ function calculate() {
 }
 
 // 入力が変わったら即計算
-document.querySelectorAll('input[name="ronTsumo"], input[name="nakiMenzen"], input[name="childParent"], #han')
+document.querySelectorAll('input[name="ronTsumo"], input[name="nakiMenzen"], input[name="childParent"], input[name="han"]')
 .forEach(el => el.addEventListener('change', calculate));
 
 // 初期表示
